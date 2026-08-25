@@ -8,8 +8,7 @@ const unique = Math.random().toString(36).substring(2, 6).toUpperCase();
 const seq = tp.date.now("HHmmss") + "-" + unique;
 const fileName = "TRD-" + dateCompact + "-" + seq;
 
-const tradeTypes = ["FOREX", "BINARY"];
-const tradeType = await tp.system.suggester(tradeTypes, tradeTypes, false, "Trade Type:") ?? "FOREX";
+const tradeType = "BINARY";
 
 const assets = ["EUR-USD", "GBP-USD", "USD-JPY", "AUD-USD", "EUR-GBP", "USD-CAD", "BTC-USD", "GOLD", "OIL", "EUR-USD-OTC", "GBP-USD-OTC", "AUD-USD-OTC"];
 const asset = await tp.system.suggester(assets, assets, false, "Select Asset:") ?? "UNSET";
@@ -54,6 +53,9 @@ direction: "<% direction %>"
 expiry: "5m"
 market-regime: ""
 market-behavior: "<% behavior !== 'NA' ? '[[BEH-' + behavior + ']]' : '' %>"
+candle-behavior: ""
+sequence: ""
+pattern: ""
 variables: []
 result: "<% result %>"
 payout: 85

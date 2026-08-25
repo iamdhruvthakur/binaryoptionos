@@ -9,7 +9,6 @@ tags:
 
 <div class="tos-nav">
   [[Dashboard - Trading OS|HOME]]
-  [[Dashboard - Binary Options|BINARY]]
   [[Dashboard - Trading|TRADING]]
   [[Dashboard - Strategy|STRATEGY]]
   [[Dashboard - Research|RESEARCH]]
@@ -93,7 +92,7 @@ TABLE WITHOUT ID
   length(filter(rows, (r) => r.result = "LOSS")) as "L",
   round(length(filter(rows, (r) => r.result = "WIN")) / max(length(filter(rows, (r) => r.result = "WIN" OR r.result = "LOSS")), 1) * 100, 1) + "%" as "Win Rate"
 FROM "01-Journal/Trades"
-WHERE note-type = "trade" AND trade-type = "BINARY"
+WHERE note-type = "trade"
 GROUP BY market-behavior
 SORT length(rows) DESC
 ```
@@ -132,6 +131,25 @@ SORT length(rows) DESC
 
 ---
 
+## ASSET TYPE PERFORMANCE (LIVE vs OTC)
+
+```dataview
+TABLE WITHOUT ID
+  asset-type as "Asset Type",
+  length(rows) as "Trades",
+  length(filter(rows, (r) => r.result = "WIN")) as "W",
+  length(filter(rows, (r) => r.result = "LOSS")) as "L",
+  round(length(filter(rows, (r) => r.result = "WIN")) / max(length(filter(rows, (r) => r.result = "WIN" OR r.result = "LOSS")), 1) * 100, 1) + "%" as "Win Rate"
+FROM "01-Journal/Trades"
+WHERE note-type = "trade"
+GROUP BY asset-type
+SORT length(rows) DESC
+```
+
+> *No asset type performance data available.*
+
+---
+
 ## REGISTERED ASSETS
 
 ```dataview
@@ -158,4 +176,4 @@ LIMIT 10
 > *No market observations recorded.*
 
 ---
-*[[Dashboard - Trading OS|Home]] · [[Dashboard - Binary Options|Binary Options]] · [[_Bases/Assets.base|Assets Database]]*
+*[[Dashboard - Trading OS|Home]] · [[Dashboard - Trading|Trading]] · [[_Bases/Assets.base|Assets Database]]*

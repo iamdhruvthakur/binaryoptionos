@@ -10,7 +10,6 @@ tags:
 
 <div class="tos-nav">
   <strong>HOME</strong>
-  [[Dashboard - Binary Options|BINARY]]
   [[Dashboard - Trading|TRADING]]
   [[Dashboard - Strategy|STRATEGY]]
   [[Dashboard - Research|RESEARCH]]
@@ -111,7 +110,7 @@ GROUP BY true
 > *No trades today. Use **+ NEW TRADE** to begin.*
 
 ```dataview
-TABLE time, asset, trade-type as "Type", direction, result
+TABLE time, asset, direction, result
 FROM "01-Journal/Trades"
 WHERE note-type = "trade" AND date = date(today)
 SORT time DESC
@@ -222,7 +221,6 @@ LIMIT 5
 
 | Module | Dashboard | Database |
 |---|---|---|
-| Binary Options | [[Dashboard - Binary Options]] | [[_Bases/Trades.base\|Trades]] |
 | Trading | [[Dashboard - Trading]] | [[_Bases/Trades.base\|Trades]] |
 | Strategy | [[Dashboard - Strategy]] | [[_Bases/Strategies.base\|Strategies]] |
 | Research | [[Dashboard - Research]] | [[_Bases/Research.base\|Research]] |

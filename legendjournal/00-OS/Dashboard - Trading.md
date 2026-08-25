@@ -9,7 +9,6 @@ tags:
 
 <div class="tos-nav">
   [[Dashboard - Trading OS|HOME]]
-  [[Dashboard - Binary Options|BINARY]]
   <strong>TRADING</strong>
   [[Dashboard - Strategy|STRATEGY]]
   [[Dashboard - Research|RESEARCH]]
@@ -92,26 +91,6 @@ GROUP BY true
 
 ---
 
-## PERFORMANCE BY TRADE TYPE
-
-```dataview
-TABLE WITHOUT ID
-  trade-type as "Type",
-  length(rows) as "Trades",
-  length(filter(rows, (r) => r.result = "WIN")) as "W",
-  length(filter(rows, (r) => r.result = "LOSS")) as "L",
-  round(length(filter(rows, (r) => r.result = "WIN")) / max(length(filter(rows, (r) => r.result = "WIN" OR r.result = "LOSS")), 1) * 100, 1) + "%" as "Win Rate",
-  round(sum(map(rows, (r) => choice(r.result = "WIN", r.stake * (r.payout/100), choice(r.result = "LOSS", -r.stake, 0)))), 2) as "Net P/L"
-FROM "01-Journal/Trades"
-WHERE note-type = "trade"
-GROUP BY trade-type
-SORT length(rows) DESC
-```
-
-> *No trade type data. Trades are classified as FOREX or BINARY.*
-
----
-
 ## PERFORMANCE BY MARKET REGIME
 
 ```dataview
@@ -128,6 +107,89 @@ SORT length(rows) DESC
 ```
 
 > *No regime data available.*
+
+---
+
+## MARKET BEHAVIOR
+
+```dataview
+TABLE WITHOUT ID
+  market-behavior as "Behavior",
+  length(rows) as "Trades",
+  length(filter(rows, (r) => r.result = "WIN")) as "W",
+  length(filter(rows, (r) => r.result = "LOSS")) as "L",
+  round(length(filter(rows, (r) => r.result = "WIN")) / max(length(filter(rows, (r) => r.result = "WIN" OR r.result = "LOSS")), 1) * 100, 1) + "%" as "Win Rate",
+  round(sum(map(rows, (r) => r.stake)) / max(length(rows), 1), 2) as "Avg Stake",
+  round(sum(map(rows, (r) => r.payout)) / max(length(rows), 1), 1) + "%" as "Avg Payout",
+  round(sum(map(rows, (r) => choice(r.result = "WIN", r.stake * (r.payout/100), choice(r.result = "LOSS", -r.stake, 0)))), 2) as "Net P/L"
+FROM "01-Journal/Trades"
+WHERE note-type = "trade"
+GROUP BY market-behavior
+SORT length(rows) DESC
+```
+
+> *No market behavior data. Behavior is classified when creating a binary trade: NORMAL, REVERSAL, or UNKNOWN.*
+
+---
+
+## DIRECTION
+
+### CALL vs PUT
+
+```dataview
+TABLE WITHOUT ID
+  direction as "Direction",
+  length(rows) as "Trades",
+  length(filter(rows, (r) => r.result = "WIN")) as "W",
+  length(filter(rows, (r) => r.result = "LOSS")) as "L",
+  round(length(filter(rows, (r) => r.result = "WIN")) / max(length(filter(rows, (r) => r.result = "WIN" OR r.result = "LOSS")), 1) * 100, 1) + "%" as "Win Rate",
+  round(sum(map(rows, (r) => choice(r.result = "WIN", r.stake * (r.payout/100), choice(r.result = "LOSS", -r.stake, 0)))), 2) as "Net P/L"
+FROM "01-Journal/Trades"
+WHERE note-type = "trade"
+GROUP BY direction
+SORT length(rows) DESC
+```
+
+> *No directional data available.*
+
+---
+
+## EXPIRY
+
+```dataview
+TABLE WITHOUT ID
+  expiry as "Expiry",
+  length(rows) as "Trades",
+  length(filter(rows, (r) => r.result = "WIN")) as "W",
+  length(filter(rows, (r) => r.result = "LOSS")) as "L",
+  round(length(filter(rows, (r) => r.result = "WIN")) / max(length(filter(rows, (r) => r.result = "WIN" OR r.result = "LOSS")), 1) * 100, 1) + "%" as "Win Rate",
+  round(sum(map(rows, (r) => choice(r.result = "WIN", r.stake * (r.payout/100), choice(r.result = "LOSS", -r.stake, 0)))), 2) as "Net P/L"
+FROM "01-Journal/Trades"
+WHERE note-type = "trade"
+GROUP BY expiry
+SORT length(rows) DESC
+```
+
+> *No expiry performance data.*
+
+---
+
+## PAYOUT ANALYSIS
+
+```dataview
+TABLE WITHOUT ID
+  payout + "%" as "Payout Level",
+  length(rows) as "Trades",
+  length(filter(rows, (r) => r.result = "WIN")) as "W",
+  length(filter(rows, (r) => r.result = "LOSS")) as "L",
+  round(length(filter(rows, (r) => r.result = "WIN")) / max(length(filter(rows, (r) => r.result = "WIN" OR r.result = "LOSS")), 1) * 100, 1) + "%" as "Win Rate"
+FROM "01-Journal/Trades"
+WHERE note-type = "trade"
+GROUP BY payout
+SORT payout DESC
+```
+
+> *No payout distribution data.*
 
 ---
 
@@ -211,14 +273,14 @@ SORT length(rows) DESC
 > Open [[_Bases/Trades.base|Trades Database]] for the full filterable view.
 
 ```dataview
-TABLE date, time, trade-type as "Type", asset, direction, result, strategy-version as "Version"
+TABLE date, time, asset, direction, result, strategy-version as "Version"
 FROM "01-Journal/Trades"
 WHERE note-type = "trade"
 SORT date DESC, time DESC
-LIMIT 25
+LIMIT 15
 ```
 
 > *No trades recorded yet.*
 
 ---
-*[[Dashboard - Trading OS|Home]] · [[Dashboard - Binary Options|Binary Options]] · [[_Bases/Trades.base|Trades Database]]*
+*[[Dashboard - Trading OS|Home]] · [[Dashboard - Trading|Trading]] · [[_Bases/Trades.base|Trades Database]]*

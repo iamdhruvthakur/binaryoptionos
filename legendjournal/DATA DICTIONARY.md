@@ -20,7 +20,7 @@ Present on all structured notes.
 
 | Property | Type | Description | Allowed Values |
 |---|---|---|---|
-| `trade-type` | text | Asset classification | FOREX, BINARY |
+| `trade-type` | text | Asset classification | BINARY |
 | `date` | date | Trade date | YYYY-MM-DD |
 | `time` | text | Entry time (24h) | "HH:MM" |
 | `day-of-week` | text | Day name | Monday, Tuesday, ... |
@@ -33,6 +33,9 @@ Present on all structured notes.
 | `expiry` | text | Expiry duration | 1m, 2m, 3m, 5m, 10m, 15m, 30m, 1h |
 | `market-regime` | text | Market regime (link to Regime note) | [[REG-...]] |
 | `market-behavior` | text | Algorithmic OTC behavior | [[BEH-...]] |
+| `candle-behavior` | text | Quotex OTC candle behavior | Free text |
+| `sequence` | text | Quotex OTC sequence | Free text |
+| `pattern` | text | Quotex OTC pattern | Free text |
 | `variables` | list | Variables present (links to Variable notes) | [[VAR-...]] list |
 | `result` | text | Trade outcome | WIN, LOSS, VOID, BREAK-EVEN |
 | `payout` | number | Payout percentage | Integer 0-100 |
@@ -283,7 +286,7 @@ Present on all structured notes.
 `Live` `OTC`
 
 ### Trade Type
-`FOREX` `BINARY`
+`BINARY`
 
 ### Market Behavior
 `NORMAL` `REVERSAL` `UNKNOWN`

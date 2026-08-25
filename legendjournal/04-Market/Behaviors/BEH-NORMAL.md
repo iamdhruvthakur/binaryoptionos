@@ -28,4 +28,4 @@ A **NORMAL** OTC market is characterised by:
 ## Related Research
 
 ---
-*[[Dashboard - Market|Market Dashboard]]* | *[[Dashboard - Binary Options|Binary Options]]*
+*[[Dashboard - Market|Market Dashboard]]* | *[[Dashboard - Trading|Trading]]*
