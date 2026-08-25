@@ -75,7 +75,7 @@ tags:
 `Live` `OTC`
 
 ### Trade Type
-`FOREX` `BINARY`
+`BINARY`
 
 ### Market Behavior
 `NORMAL` `REVERSAL` `UNKNOWN`

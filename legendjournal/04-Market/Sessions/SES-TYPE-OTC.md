@@ -24,4 +24,4 @@ tags:
 - Not bound by macro-economic news releases, though payout percentages fluctuate.
 
 ---
-*[[Dashboard - Market|Market Dashboard]]* | *[[Dashboard - Binary Options|Binary Options]]*
+*[[Dashboard - Market|Market Dashboard]]* | *[[Dashboard - Trading|Trading]]*

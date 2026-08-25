@@ -201,7 +201,7 @@ If you develop an entirely new strategy (not a version of V6):
 Your command center. Quick Actions, performance snapshot, today's activity, items needing attention.
 
 ### Trading
-Deep performance analysis for FOREX. Win rates by regime, asset, session, and day of week. Mistake impact analysis. Full trade log.
+Deep performance analysis for Binary Options. Win rates by regime, asset, session, and day of week. Mistake impact analysis. Full trade log.
 
 ### Binary Options
 Dedicated performance tracking for OTC algorithmic markets. Analyzes Stake efficiency, Payout structures, Net P/L, and `NORMAL` vs `REVERSAL` market behavior win-rates without polluting Forex data.

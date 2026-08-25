@@ -9,7 +9,6 @@ tags:
 
 <div class="tos-nav">
   [[Dashboard - Trading OS|HOME]]
-  [[Dashboard - Binary Options|BINARY]]
   [[Dashboard - Trading|TRADING]]
   [[Dashboard - Strategy|STRATEGY]]
   <strong>RESEARCH</strong>
@@ -77,6 +76,66 @@ GROUP BY status
 ```
 
 > *No experiments in the pipeline. Start with **+ NEW EXPERIMENT**.*
+
+---
+
+## CANDLE BEHAVIOR RESEARCH
+
+```dataview
+TABLE WITHOUT ID
+  candle-behavior as "Candle Behavior",
+  length(rows) as "Trades",
+  length(filter(rows, (r) => r.result = "WIN")) as "W",
+  length(filter(rows, (r) => r.result = "LOSS")) as "L",
+  round(length(filter(rows, (r) => r.result = "WIN")) / max(length(filter(rows, (r) => r.result = "WIN" OR r.result = "LOSS")), 1) * 100, 1) + "%" as "Win Rate"
+FROM "01-Journal/Trades"
+WHERE note-type = "trade" AND candle-behavior != null AND candle-behavior != ""
+GROUP BY candle-behavior
+SORT length(rows) DESC
+LIMIT 10
+```
+
+> *No candle behavior data available.*
+
+---
+
+## SEQUENCE RESEARCH
+
+```dataview
+TABLE WITHOUT ID
+  sequence as "Sequence",
+  length(rows) as "Trades",
+  length(filter(rows, (r) => r.result = "WIN")) as "W",
+  length(filter(rows, (r) => r.result = "LOSS")) as "L",
+  round(length(filter(rows, (r) => r.result = "WIN")) / max(length(filter(rows, (r) => r.result = "WIN" OR r.result = "LOSS")), 1) * 100, 1) + "%" as "Win Rate"
+FROM "01-Journal/Trades"
+WHERE note-type = "trade" AND sequence != null AND sequence != ""
+GROUP BY sequence
+SORT length(rows) DESC
+LIMIT 10
+```
+
+> *No sequence data available.*
+
+---
+
+## PATTERN RESEARCH
+
+```dataview
+TABLE WITHOUT ID
+  pattern as "Pattern",
+  length(rows) as "Trades",
+  length(filter(rows, (r) => r.result = "WIN")) as "W",
+  length(filter(rows, (r) => r.result = "LOSS")) as "L",
+  round(length(filter(rows, (r) => r.result = "WIN")) / max(length(filter(rows, (r) => r.result = "WIN" OR r.result = "LOSS")), 1) * 100, 1) + "%" as "Win Rate"
+FROM "01-Journal/Trades"
+WHERE note-type = "trade" AND pattern != null AND pattern != ""
+GROUP BY pattern
+SORT length(rows) DESC
+LIMIT 10
+```
+
+> *No pattern data available.*
 
 ---
 
