@@ -10,7 +10,6 @@ tags:
 
 <div class="tos-nav">
   <strong>HOME</strong>
-  [[Dashboard - Binary Options|BINARY]]
   [[Dashboard - Trading|TRADING]]
   [[Dashboard - Strategy|STRATEGY]]
   [[Dashboard - Research|RESEARCH]]
@@ -22,7 +21,7 @@ tags:
 
 # TRADING OS
 
-<div class="tos-subtitle">Binary Options & Forex Research Environment</div>
+<div class="tos-subtitle">Quotex Binary Options Trading Environment</div>
 
 <div class="tos-status">
   <span><span class="tos-status-dot"></span> <strong>Active</strong></span>
@@ -65,15 +64,6 @@ actions:
 
 ```meta-bind-button
 style: default
-label: "+ WEEKLY REVIEW"
-id: btn-weekly-review
-actions:
-  - type: command
-    command: quickadd:choice:04-weekly-review
-```
-
-```meta-bind-button
-style: default
 label: "+ RESEARCH"
 id: btn-new-research
 actions:
@@ -94,7 +84,7 @@ actions:
 
 ---
 
-## TODAY
+## TODAY'S ACTIVITY
 
 ```dataview
 TABLE WITHOUT ID
@@ -104,22 +94,22 @@ TABLE WITHOUT ID
   round(length(filter(rows, (r) => r.result = "WIN")) / max(length(filter(rows, (r) => r.result = "WIN" OR r.result = "LOSS")), 1) * 100, 1) + "%" as "Win Rate",
   round(sum(map(rows, (r) => choice(r.result = "WIN", r.stake * (r.payout/100), choice(r.result = "LOSS", -r.stake, 0)))), 2) as "Net P/L"
 FROM "01-Journal/Trades"
-WHERE note-type = "trade" AND date = date(today)
+WHERE note-type = "trade" AND trade-type != "FOREX" AND date = date(today)
 GROUP BY true
 ```
 
 > *No trades today. Use **+ NEW TRADE** to begin.*
 
 ```dataview
-TABLE time, asset, trade-type as "Type", direction, result
+TABLE time, asset, direction, expiry, result
 FROM "01-Journal/Trades"
-WHERE note-type = "trade" AND date = date(today)
+WHERE note-type = "trade" AND trade-type != "FOREX" AND date = date(today)
 SORT time DESC
 ```
 
 ---
 
-## PERFORMANCE
+## CORE PERFORMANCE
 
 ### All Time
 
@@ -132,7 +122,7 @@ TABLE WITHOUT ID
   round(length(filter(rows, (r) => r.result = "WIN")) / max(length(filter(rows, (r) => r.result = "WIN" OR r.result = "LOSS")), 1) * 100, 1) + "%" as "Win Rate",
   round(sum(map(rows, (r) => choice(r.result = "WIN", r.stake * (r.payout/100), choice(r.result = "LOSS", -r.stake, 0)))), 2) as "Net P/L"
 FROM "01-Journal/Trades"
-WHERE note-type = "trade"
+WHERE note-type = "trade" AND trade-type != "FOREX"
 GROUP BY true
 ```
 
@@ -143,22 +133,10 @@ TABLE WITHOUT ID
   length(rows) as "Trades",
   length(filter(rows, (r) => r.result = "WIN")) as "W",
   length(filter(rows, (r) => r.result = "LOSS")) as "L",
-  round(length(filter(rows, (r) => r.result = "WIN")) / max(length(filter(rows, (r) => r.result = "WIN" OR r.result = "LOSS")), 1) * 100, 1) + "%" as "Win Rate"
+  round(length(filter(rows, (r) => r.result = "WIN")) / max(length(filter(rows, (r) => r.result = "WIN" OR r.result = "LOSS")), 1) * 100, 1) + "%" as "Win Rate",
+  round(sum(map(rows, (r) => choice(r.result = "WIN", r.stake * (r.payout/100), choice(r.result = "LOSS", -r.stake, 0)))), 2) as "Net P/L"
 FROM "01-Journal/Trades"
-WHERE note-type = "trade" AND date >= date(today) - dur(7 days)
-GROUP BY true
-```
-
-### Last 30 Days
-
-```dataview
-TABLE WITHOUT ID
-  length(rows) as "Trades",
-  length(filter(rows, (r) => r.result = "WIN")) as "W",
-  length(filter(rows, (r) => r.result = "LOSS")) as "L",
-  round(length(filter(rows, (r) => r.result = "WIN")) / max(length(filter(rows, (r) => r.result = "WIN" OR r.result = "LOSS")), 1) * 100, 1) + "%" as "Win Rate"
-FROM "01-Journal/Trades"
-WHERE note-type = "trade" AND date >= date(today) - dur(30 days)
+WHERE note-type = "trade" AND trade-type != "FOREX" AND date >= date(today) - dur(7 days)
 GROUP BY true
 ```
 
@@ -195,7 +173,7 @@ LIMIT 5
 ```dataview
 TABLE date, time, asset, result
 FROM "01-Journal/Trades"
-WHERE note-type = "trade" AND reviewed = false
+WHERE note-type = "trade" AND trade-type != "FOREX" AND reviewed = false
 SORT date DESC, time DESC
 LIMIT 5
 ```
@@ -209,7 +187,7 @@ LIMIT 5
 ```dataview
 TABLE date, asset, result, mistake
 FROM "01-Journal/Trades"
-WHERE note-type = "trade" AND mistake AND mistake != ""
+WHERE note-type = "trade" AND trade-type != "FOREX" AND mistake != ""
 SORT date DESC
 LIMIT 5
 ```
@@ -222,7 +200,6 @@ LIMIT 5
 
 | Module | Dashboard | Database |
 |---|---|---|
-| Binary Options | [[Dashboard - Binary Options]] | [[_Bases/Trades.base\|Trades]] |
 | Trading | [[Dashboard - Trading]] | [[_Bases/Trades.base\|Trades]] |
 | Strategy | [[Dashboard - Strategy]] | [[_Bases/Strategies.base\|Strategies]] |
 | Research | [[Dashboard - Research]] | [[_Bases/Research.base\|Research]] |
@@ -232,4 +209,4 @@ LIMIT 5
 | Knowledge | [[Dashboard - Knowledge]] | — |
 
 ---
-*[[SYSTEM GUIDE]] · [[WORKFLOW GUIDE]] · [[DATA DICTIONARY]] · [[WALKTHROUGH]]*
+*[[System - Config]] · [[DATA DICTIONARY]]*

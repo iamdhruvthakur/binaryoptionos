@@ -9,7 +9,6 @@ tags:
 
 <div class="tos-nav">
   [[Dashboard - Trading OS|HOME]]
-  [[Dashboard - Binary Options|BINARY]]
   [[Dashboard - Trading|TRADING]]
   <strong>STRATEGY</strong>
   [[Dashboard - Research|RESEARCH]]
@@ -21,13 +20,7 @@ tags:
 
 # STRATEGY
 
-<div class="tos-subtitle">V6 Framework · Version Control · Performance Tracking</div>
-
-<div class="tos-status">
-  <span><span class="tos-status-dot"></span> <strong>Active Strategy</strong></span>
-  <span>[[STR-V6]]</span>
-  <span>Version: [[VER-V6.2]]</span>
-</div>
+<div class="tos-subtitle">Registry · Version Control · Confluences</div>
 
 <div class="quick-actions">
 
@@ -62,6 +55,19 @@ actions:
 
 ---
 
+## ACTIVE STRATEGIES
+
+```dataview
+TABLE status, current-version, core-concept
+FROM "02-Strategies/Registry"
+WHERE note-type = "strategy" AND status = "Active"
+SORT name ASC
+```
+
+> *No active strategies registered.*
+
+---
+
 ## STRATEGY VERSIONS
 
 ```dataview
@@ -71,11 +77,11 @@ WHERE note-type = "strategy-version"
 SORT version DESC
 ```
 
-> *No strategy versions registered. Use **+ NEW VERSION** to create one.*
+> *No strategy versions found.*
 
 ---
 
-## VERSION PERFORMANCE
+## PERFORMANCE BY VERSION
 
 ```dataview
 TABLE WITHOUT ID
@@ -86,16 +92,16 @@ TABLE WITHOUT ID
   round(length(filter(rows, (r) => r.result = "WIN")) / max(length(filter(rows, (r) => r.result = "WIN" OR r.result = "LOSS")), 1) * 100, 1) + "%" as "Win Rate",
   round(sum(map(rows, (r) => choice(r.result = "WIN", r.stake * (r.payout/100), choice(r.result = "LOSS", -r.stake, 0)))), 2) as "Net P/L"
 FROM "01-Journal/Trades"
-WHERE note-type = "trade"
+WHERE note-type = "trade" AND trade-type != "FOREX"
 GROUP BY strategy-version
 SORT length(rows) DESC
 ```
 
-> *No live trade data for version analysis.*
+> *No live trades recorded against any version.*
 
 ---
 
-## CHANGELOGS
+## RECENT CHANGES
 
 ```dataview
 TABLE date, from-version, to-version, change-type, change-summary
@@ -109,7 +115,7 @@ LIMIT 10
 
 ---
 
-## V6 VARIABLES
+## VARIABLES & CONFLUENCES
 
 ```dataview
 TABLE name, category, alias
@@ -119,20 +125,6 @@ SORT category ASC
 ```
 
 > *No variables registered.*
-
----
-
-## BACKTESTS
-
-```dataview
-TABLE date-run, strategy-version, asset, market-regime, total-trades, win-rate, conclusion
-FROM "03-Research/Backtests"
-WHERE note-type = "backtest"
-SORT date-run DESC
-LIMIT 10
-```
-
-> *No backtests completed. Use **+ BACKTEST** to record one.*
 
 ---
 *[[Dashboard - Trading OS|Home]] · [[Dashboard - Trading|Trading]] · [[_Bases/Strategies.base|Strategy Database]]*
