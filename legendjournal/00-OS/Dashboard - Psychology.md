@@ -9,7 +9,6 @@ tags:
 
 <div class="tos-nav">
   [[Dashboard - Trading OS|HOME]]
-  [[Dashboard - Binary Options|BINARY]]
   [[Dashboard - Trading|TRADING]]
   [[Dashboard - Strategy|STRATEGY]]
   [[Dashboard - Research|RESEARCH]]
@@ -21,7 +20,7 @@ tags:
 
 # PSYCHOLOGY
 
-<div class="tos-subtitle">Mistakes · Biases · Emotional Patterns · Self-Awareness</div>
+<div class="tos-subtitle">Mental Capital · Mistakes · Observations</div>
 
 <div class="quick-actions">
 
@@ -56,11 +55,11 @@ WHERE note-type = "mistake"
 SORT frequency DESC
 ```
 
-> *No mistakes recorded. Identifying mistakes is the first step to improving.*
+> *No mistakes registered.*
 
 ---
 
-## MISTAKE IMPACT (FROM TRADES)
+## ALL-TIME MISTAKE IMPACT
 
 ```dataview
 TABLE WITHOUT ID
@@ -69,71 +68,54 @@ TABLE WITHOUT ID
   length(filter(rows, (r) => r.result = "LOSS")) as "Losses",
   round(length(filter(rows, (r) => r.result = "LOSS")) / max(length(rows), 1) * 100, 0) + "%" as "Loss Rate"
 FROM "01-Journal/Trades"
-WHERE note-type = "trade" AND mistake AND mistake != ""
+WHERE note-type = "trade" AND trade-type != "FOREX" AND mistake != ""
 GROUP BY mistake
 SORT length(rows) DESC
 ```
 
-> *No mistakes flagged on trades.*
+> *No mistake impact data available.*
 
 ---
 
-## PSYCHOLOGY-FLAGGED TRADES
+## RECENT TRADES WITH PSYCH FLAGS
 
 ```dataview
-TABLE date, asset, direction, result, psychology-note, mistake
+TABLE date, time, asset, result, mistake, psychology-note
 FROM "01-Journal/Trades"
-WHERE note-type = "trade" AND psychology-flag = true
-SORT date DESC
-LIMIT 15
-```
-
-> *No psychology-flagged trades. Flag trades where emotions influenced decisions.*
-
----
-
-## BIAS FREQUENCY
-
-```dataview
-TABLE WITHOUT ID
-  bias-type as "Bias",
-  length(rows) as "Count",
-  length(filter(rows, (r) => r.impact = "Negative")) as "Negative Impact"
-FROM "06-Psychology/Observations"
-WHERE note-type = "psychology-observation"
-GROUP BY bias-type
-SORT length(rows) DESC
-```
-
-> *No bias data available.*
-
----
-
-## PSYCHOLOGY OBSERVATIONS
-
-```dataview
-TABLE date, bias-type, impact, emotional-state
-FROM "06-Psychology/Observations"
-WHERE note-type = "psychology-observation"
+WHERE note-type = "trade" AND trade-type != "FOREX" AND psychology-flag = true
 SORT date DESC
 LIMIT 10
 ```
 
-> *No psychology observations. Use **+ PSYCHOLOGY NOTE** to log emotional patterns.*
+> *No recent trades flagged for psychology.*
 
 ---
 
-## PSYCHOLOGY RATING TREND
+## RECENT PSYCHOLOGY OBSERVATIONS
 
 ```dataview
-TABLE date, day-of-week, psychology-rating, total-trades, win-rate
-FROM "01-Journal/Reviews"
-WHERE note-type = "review" AND review-type = "Daily"
+TABLE date, emotional-state, bias-type, impact
+FROM "06-Psychology/Observations"
+WHERE note-type = "psychology-observation"
 SORT date DESC
-LIMIT 14
+LIMIT 5
 ```
 
-> *No daily reviews. Psychology ratings are captured during daily reviews.*
+> *No recent psychology observations.*
 
 ---
-*[[Dashboard - Trading OS|Home]] · [[Dashboard - Review|Review]] · [[_Bases/Mistakes.base|Mistakes Database]]*
+
+## RECENT MISTAKE OCCURRENCES
+
+```dataview
+TABLE date, time, asset, result, mistake
+FROM "01-Journal/Trades"
+WHERE note-type = "trade" AND trade-type != "FOREX" AND mistake != ""
+SORT date DESC
+LIMIT 10
+```
+
+> *No recent mistakes recorded.*
+
+---
+*[[Dashboard - Trading OS|Home]] · [[_Bases/Mistakes.base|Mistakes Database]]*

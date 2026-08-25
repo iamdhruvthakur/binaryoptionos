@@ -9,7 +9,6 @@ tags:
 
 <div class="tos-nav">
   [[Dashboard - Trading OS|HOME]]
-  [[Dashboard - Binary Options|BINARY]]
   [[Dashboard - Trading|TRADING]]
   [[Dashboard - Strategy|STRATEGY]]
   [[Dashboard - Research|RESEARCH]]
@@ -21,7 +20,7 @@ tags:
 
 # REVIEW
 
-<div class="tos-subtitle">Daily Reviews · Weekly Reviews · Discipline Tracking</div>
+<div class="tos-subtitle">Session Completion · Weekly Alignment</div>
 
 <div class="quick-actions">
 
@@ -52,66 +51,68 @@ actions:
 ### Unreviewed Sessions
 
 ```dataview
-TABLE date, session-type, total-trades, win-rate
+TABLE date, total-trades, win-rate
 FROM "01-Journal/Sessions"
 WHERE note-type = "session" AND reviewed = false
 SORT date DESC
 ```
 
-> *All sessions reviewed.*
+> *All sessions reviewed!*
 
 ### Unreviewed Trades
 
 ```dataview
-TABLE date, time, asset, direction, result
+TABLE date, time, asset, result
 FROM "01-Journal/Trades"
-WHERE note-type = "trade" AND reviewed = false
+WHERE note-type = "trade" AND trade-type != "FOREX" AND reviewed = false
 SORT date DESC, time DESC
-LIMIT 10
 ```
 
-> *All trades reviewed.*
+> *All trades reviewed!*
 
 ---
 
-## DAILY REVIEWS
+## RECENT DAILY REVIEWS
 
 ```dataview
-TABLE date, day-of-week, total-trades, wins, losses, win-rate, psychology-rating
+TABLE date, day-of-week, total-trades, win-rate, psychology-rating
 FROM "01-Journal/Reviews"
 WHERE note-type = "review" AND review-type = "Daily"
 SORT date DESC
-LIMIT 14
+LIMIT 7
 ```
 
-> *No daily reviews. Use **+ DAILY REVIEW** to create one.*
+> *No daily reviews logged.*
 
 ---
 
-## WEEKLY REVIEWS
+## RECENT WEEKLY REVIEWS
 
 ```dataview
-TABLE week-number, year, total-trades, win-rate, strategy-version, key-discoveries
+TABLE year, week-number, total-trades, win-rate, strategy-version
 FROM "01-Journal/Reviews"
 WHERE note-type = "review" AND review-type = "Weekly"
 SORT year DESC, week-number DESC
-LIMIT 10
+LIMIT 4
 ```
 
-> *No weekly reviews yet.*
+> *No weekly reviews logged.*
 
 ---
 
-## CONSISTENCY (LAST 30 DAYS)
+## MISTAKE FEEDBACK (Last 14 Days)
 
 ```dataview
-TABLE date, total-trades, wins, losses, win-rate, psychology-rating
-FROM "01-Journal/Reviews"
-WHERE note-type = "review" AND review-type = "Daily" AND date >= date(today) - dur(30 days)
-SORT date DESC
+TABLE WITHOUT ID
+  mistake as "Mistake",
+  length(rows) as "Occurrences"
+FROM "01-Journal/Trades"
+WHERE note-type = "trade" AND trade-type != "FOREX" AND mistake != "" AND date >= date(today) - dur(14 days)
+GROUP BY mistake
+SORT length(rows) DESC
 ```
 
-> *No reviews in the last 30 days. Consistent reviewing is critical for improvement.*
+> *No mistakes logged in the last 14 days.*
 
 ---
-*[[Dashboard - Trading OS|Home]] · [[Dashboard - Psychology|Psychology]] · [[_Bases/Reviews.base|Reviews Database]]*
+*[[Dashboard - Trading OS|Home]] · [[_Bases/Reviews.base|Reviews Database]]*

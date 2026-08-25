@@ -9,7 +9,6 @@ tags:
 
 <div class="tos-nav">
   [[Dashboard - Trading OS|HOME]]
-  [[Dashboard - Binary Options|BINARY]]
   [[Dashboard - Trading|TRADING]]
   [[Dashboard - Strategy|STRATEGY]]
   [[Dashboard - Research|RESEARCH]]
@@ -21,7 +20,7 @@ tags:
 
 # MARKET
 
-<div class="tos-subtitle">Regimes · Sessions · Assets · Behavior Classification</div>
+<div class="tos-subtitle">Quotex Asset Registry · Regimes · Behaviors</div>
 
 <div class="quick-actions">
 
@@ -47,7 +46,7 @@ actions:
 
 ---
 
-## MARKET REGIMES
+## MARKET REGIMES (Structural)
 
 | Regime | Suitability | Description |
 |---|---|---|
@@ -56,34 +55,9 @@ actions:
 | [[REG-Choppy\|Choppy]] | Low | No clear direction, false breakouts |
 | [[REG-Trending\|Trending]] | Medium | Sustained directional move |
 
-### Regime Performance
-
-```dataview
-TABLE WITHOUT ID
-  market-regime as "Regime",
-  length(rows) as "Trades",
-  length(filter(rows, (r) => r.result = "WIN")) as "W",
-  length(filter(rows, (r) => r.result = "LOSS")) as "L",
-  round(length(filter(rows, (r) => r.result = "WIN")) / max(length(filter(rows, (r) => r.result = "WIN" OR r.result = "LOSS")), 1) * 100, 1) + "%" as "Win Rate"
-FROM "01-Journal/Trades"
-WHERE note-type = "trade"
-GROUP BY market-regime
-SORT length(rows) DESC
-```
-
-> *No trade data available for regime analysis.*
-
 ---
 
-## MARKET BEHAVIORS (OTC)
-
-| Behavior | Description |
-|---|---|
-| [[BEH-NORMAL\|NORMAL]] | Standard algorithmic execution |
-| [[BEH-REVERSAL\|REVERSAL]] | Counter-directional algorithm active |
-| [[BEH-UNKNOWN\|UNKNOWN]] | Unclassified or ambiguous behavior |
-
-### Behavior Performance
+## MARKET BEHAVIORS (OTC Algorithms)
 
 ```dataview
 TABLE WITHOUT ID
@@ -91,9 +65,10 @@ TABLE WITHOUT ID
   length(rows) as "Trades",
   length(filter(rows, (r) => r.result = "WIN")) as "W",
   length(filter(rows, (r) => r.result = "LOSS")) as "L",
-  round(length(filter(rows, (r) => r.result = "WIN")) / max(length(filter(rows, (r) => r.result = "WIN" OR r.result = "LOSS")), 1) * 100, 1) + "%" as "Win Rate"
+  round(length(filter(rows, (r) => r.result = "WIN")) / max(length(filter(rows, (r) => r.result = "WIN" OR r.result = "LOSS")), 1) * 100, 1) + "%" as "Win Rate",
+  round(sum(map(rows, (r) => choice(r.result = "WIN", r.stake * (r.payout/100), choice(r.result = "LOSS", -r.stake, 0)))), 2) as "Net P/L"
 FROM "01-Journal/Trades"
-WHERE note-type = "trade" AND trade-type = "BINARY"
+WHERE note-type = "trade" AND trade-type != "FOREX"
 GROUP BY market-behavior
 SORT length(rows) DESC
 ```
@@ -102,60 +77,50 @@ SORT length(rows) DESC
 
 ---
 
-## SESSION TYPES
-
-| Session | UTC Window | IST Window |
-|---|---|---|
-| [[SES-TYPE-Pre-Market\|Pre-Market]] | Before open | Preparation |
-| [[SES-TYPE-London\|London]] | 08:00 – 17:00 | 13:30 – 22:30 |
-| [[SES-TYPE-London-NY-Overlap\|Overlap]] | 13:00 – 17:00 | 18:30 – 22:30 |
-| [[SES-TYPE-New-York\|New York]] | 13:00 – 22:00 | 18:30 – 03:30 |
-| [[SES-TYPE-Asian\|Asian]] | 00:00 – 09:00 | 05:30 – 14:30 |
-| [[SES-TYPE-Post-Market\|Post-Market]] | After close | Review |
-
-### Session Performance
-
-```dataview
-TABLE WITHOUT ID
-  session as "Session",
-  length(rows) as "Trades",
-  length(filter(rows, (r) => r.result = "WIN")) as "W",
-  length(filter(rows, (r) => r.result = "LOSS")) as "L",
-  round(length(filter(rows, (r) => r.result = "WIN")) / max(length(filter(rows, (r) => r.result = "WIN" OR r.result = "LOSS")), 1) * 100, 1) + "%" as "Win Rate"
-FROM "01-Journal/Trades"
-WHERE note-type = "trade"
-GROUP BY session
-SORT length(rows) DESC
-```
-
-> *No session performance data available.*
-
----
-
 ## REGISTERED ASSETS
 
 ```dataview
-TABLE name, asset-class, asset-type, typical-sessions
+TABLE name, asset-class, asset-type
 FROM "04-Market/Assets"
 WHERE note-type = "asset"
-SORT asset-class ASC
+SORT asset-type DESC, asset-class ASC
 ```
 
-> *No assets registered. Use **+ NEW ASSET** to add one.*
+> *No assets registered.*
 
 ---
 
-## RECENT MARKET OBSERVATIONS
+## ASSET PERFORMANCE
 
 ```dataview
-TABLE date, observation-type, summary, status
-FROM "03-Research/Observations"
-WHERE note-type = "observation" AND (observation-type = "Market" OR observation-type = "Asset" OR observation-type = "Session")
-SORT date DESC
-LIMIT 10
+TABLE WITHOUT ID
+  asset as "Asset",
+  length(rows) as "Trades",
+  length(filter(rows, (r) => r.result = "WIN")) as "W",
+  length(filter(rows, (r) => r.result = "LOSS")) as "L",
+  round(length(filter(rows, (r) => r.result = "WIN")) / max(length(filter(rows, (r) => r.result = "WIN" OR r.result = "LOSS")), 1) * 100, 1) + "%" as "Win Rate",
+  round(sum(map(rows, (r) => choice(r.result = "WIN", r.stake * (r.payout/100), choice(r.result = "LOSS", -r.stake, 0)))), 2) as "Net P/L"
+FROM "01-Journal/Trades"
+WHERE note-type = "trade" AND trade-type != "FOREX"
+GROUP BY asset
+SORT length(rows) DESC
 ```
 
-> *No market observations recorded.*
+> *No live trade data for assets.*
 
 ---
-*[[Dashboard - Trading OS|Home]] · [[Dashboard - Binary Options|Binary Options]] · [[_Bases/Assets.base|Assets Database]]*
+
+## ASSET OBSERVATIONS
+
+```dataview
+TABLE date, summary, information-type
+FROM "03-Research/Observations"
+WHERE note-type = "observation" AND observation-type = "Asset"
+SORT date DESC
+LIMIT 5
+```
+
+> *No recent asset observations.*
+
+---
+*[[Dashboard - Trading OS|Home]] · [[_Bases/Assets.base|Assets Database]]*

@@ -9,7 +9,6 @@ tags:
 
 <div class="tos-nav">
   [[Dashboard - Trading OS|HOME]]
-  [[Dashboard - Binary Options|BINARY]]
   [[Dashboard - Trading|TRADING]]
   [[Dashboard - Strategy|STRATEGY]]
   [[Dashboard - Research|RESEARCH]]
@@ -21,7 +20,7 @@ tags:
 
 # KNOWLEDGE
 
-<div class="tos-subtitle">Rules · Concepts · Research Library</div>
+<div class="tos-subtitle">Concepts · Rules · Facts</div>
 
 <div class="quick-actions">
 
@@ -47,63 +46,61 @@ WHERE note-type = "knowledge" AND information-type = "RULE"
 SORT title ASC
 ```
 
-> *No rules established. Rules are created when research confirms a hypothesis.*
+> *No confirmed rules recorded.*
 
 ---
 
-## CONCEPTS
+## ATOMIC CONCEPTS
 
 ```dataview
-TABLE title, information-type, source, status
+TABLE title, topic, status
 FROM "07-Knowledge/Concepts"
-WHERE note-type = "knowledge"
-SORT information-type ASC, title ASC
+WHERE note-type = "knowledge" AND information-type = "CONCEPT"
+SORT title ASC
+LIMIT 10
 ```
 
 > *No concepts recorded.*
 
 ---
 
-## BY INFORMATION TYPE
+## HYPOTHESES & UNVERIFIED IDEAS
 
 ```dataview
-TABLE WITHOUT ID
-  information-type as "Type",
-  length(rows) as "Count"
+TABLE title, topic
 FROM "07-Knowledge"
-WHERE note-type = "knowledge"
-GROUP BY information-type
-SORT length(rows) DESC
-```
-
-> *No knowledge notes. The knowledge system tracks the progression from observation to confirmed rule.*
-
----
-
-## IMPORTED KNOWLEDGE
-
-```dataview
-TABLE title, information-type, migrated-from, status
-FROM "07-Knowledge/Imported"
-WHERE note-type = "knowledge"
+WHERE note-type = "knowledge" AND (information-type = "HYPOTHESIS" OR information-type = "UNVERIFIED-IDEA")
 SORT title ASC
 ```
 
-> *No imported knowledge yet.*
+> *No unverified ideas currently logged.*
 
 ---
 
-## RECENT KNOWLEDGE
+## PERSONAL OPINIONS
 
 ```dataview
-TABLE title, information-type, source, status
+TABLE title, topic
+FROM "07-Knowledge"
+WHERE note-type = "knowledge" AND information-type = "PERSONAL-OPINION"
+SORT title ASC
+```
+
+> *No personal opinions recorded.*
+
+---
+
+## RECENTLY ADDED
+
+```dataview
+TABLE title, information-type, topic
 FROM "07-Knowledge"
 WHERE note-type = "knowledge"
 SORT file.ctime DESC
-LIMIT 10
+LIMIT 5
 ```
 
-> *No knowledge notes created.*
+> *Knowledge base is empty.*
 
 ---
-*[[Dashboard - Trading OS|Home]] · [[Dashboard - Research|Research]] · [[SYSTEM GUIDE]]*
+*[[Dashboard - Trading OS|Home]]*

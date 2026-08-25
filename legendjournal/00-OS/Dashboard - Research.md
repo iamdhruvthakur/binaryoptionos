@@ -9,7 +9,6 @@ tags:
 
 <div class="tos-nav">
   [[Dashboard - Trading OS|HOME]]
-  [[Dashboard - Binary Options|BINARY]]
   [[Dashboard - Trading|TRADING]]
   [[Dashboard - Strategy|STRATEGY]]
   <strong>RESEARCH</strong>
@@ -21,7 +20,7 @@ tags:
 
 # RESEARCH
 
-<div class="tos-subtitle">Experiments · Backtests · Observations · Evidence</div>
+<div class="tos-subtitle">OTC Market Structure · Sequences · Experiments</div>
 
 <div class="quick-actions">
 
@@ -65,6 +64,55 @@ actions:
 
 ---
 
+## DEEP RESEARCH LOOP
+
+### By Candle Behavior
+
+```dataview
+TABLE WITHOUT ID
+  candle-behavior as "Candle Behavior",
+  length(rows) as "Trades",
+  length(filter(rows, (r) => r.result = "WIN")) as "W",
+  length(filter(rows, (r) => r.result = "LOSS")) as "L",
+  round(length(filter(rows, (r) => r.result = "WIN")) / max(length(filter(rows, (r) => r.result = "WIN" OR r.result = "LOSS")), 1) * 100, 1) + "%" as "Win Rate"
+FROM "01-Journal/Trades"
+WHERE note-type = "trade" AND trade-type != "FOREX" AND candle-behavior != null AND candle-behavior != ""
+GROUP BY candle-behavior
+SORT length(rows) DESC
+```
+
+### By Sequence
+
+```dataview
+TABLE WITHOUT ID
+  sequence as "Sequence",
+  length(rows) as "Trades",
+  length(filter(rows, (r) => r.result = "WIN")) as "W",
+  length(filter(rows, (r) => r.result = "LOSS")) as "L",
+  round(length(filter(rows, (r) => r.result = "WIN")) / max(length(filter(rows, (r) => r.result = "WIN" OR r.result = "LOSS")), 1) * 100, 1) + "%" as "Win Rate"
+FROM "01-Journal/Trades"
+WHERE note-type = "trade" AND trade-type != "FOREX" AND sequence != null AND sequence != ""
+GROUP BY sequence
+SORT length(rows) DESC
+```
+
+### By Pattern
+
+```dataview
+TABLE WITHOUT ID
+  pattern as "Pattern",
+  length(rows) as "Trades",
+  length(filter(rows, (r) => r.result = "WIN")) as "W",
+  length(filter(rows, (r) => r.result = "LOSS")) as "L",
+  round(length(filter(rows, (r) => r.result = "WIN")) / max(length(filter(rows, (r) => r.result = "WIN" OR r.result = "LOSS")), 1) * 100, 1) + "%" as "Win Rate"
+FROM "01-Journal/Trades"
+WHERE note-type = "trade" AND trade-type != "FOREX" AND pattern != null AND pattern != ""
+GROUP BY pattern
+SORT length(rows) DESC
+```
+
+---
+
 ## PIPELINE
 
 ```dataview
@@ -76,84 +124,60 @@ WHERE note-type = "research-experiment"
 GROUP BY status
 ```
 
-> *No experiments in the pipeline. Start with **+ NEW EXPERIMENT**.*
-
 ---
 
 ## ACTIVE EXPERIMENTS
 
 ```dataview
-TABLE title, date-started, strategy-version, hypothesis, sample-size
+TABLE date-started, hypothesis
 FROM "03-Research/Experiments"
 WHERE note-type = "research-experiment" AND (status = "Open" OR status = "In Progress")
 SORT date-started DESC
 ```
 
-> *No active experiments.*
-
----
-
-## COMPLETED RESEARCH
-
-```dataview
-TABLE title, date-completed, conclusion-type, conclusion
-FROM "03-Research/Experiments"
-WHERE note-type = "research-experiment" AND status = "Completed"
-SORT date-completed DESC
-```
-
-> *No completed research yet.*
-
----
-
-## CONFIRMED FINDINGS
-
-```dataview
-TABLE title, conclusion
-FROM "03-Research/Experiments"
-WHERE note-type = "research-experiment" AND conclusion-type = "CONFIRMED"
-```
-
-> *No confirmed findings. Confirmed experiments become trading rules.*
-
----
-
-## REJECTED HYPOTHESES
-
-```dataview
-TABLE title, conclusion
-FROM "03-Research/Experiments"
-WHERE note-type = "research-experiment" AND conclusion-type = "REFUTED"
-```
-
-> *No rejected hypotheses.*
-
----
-
-## BACKTESTS
-
-```dataview
-TABLE date-run, strategy-version, asset, market-regime, total-trades, win-rate
-FROM "03-Research/Backtests"
-WHERE note-type = "backtest"
-SORT date-run DESC
-```
-
-> *No backtests completed yet.*
+> *No active experiments. Test a new hypothesis using **+ NEW EXPERIMENT**.*
 
 ---
 
 ## RECENT OBSERVATIONS
 
 ```dataview
-TABLE date, observation-type, information-type, summary, status
+TABLE date, observation-type, information-type, summary
 FROM "03-Research/Observations"
 WHERE note-type = "observation"
 SORT date DESC
 LIMIT 10
 ```
 
-> *No observations recorded. Use **+ OBSERVATION** to log market or system observations.*
+> *No recent market observations.*
 
 ---
-*[[Dashboard - Trading OS|Home]] · [[Dashboard - Strategy|Strategy]] · [[_Bases/Research.base|Research Database]]*
+
+## RECENT CONCLUSIONS
+
+```dataview
+TABLE date-completed, hypothesis, conclusion, conclusion-type
+FROM "03-Research/Experiments"
+WHERE note-type = "research-experiment" AND status = "Completed"
+SORT date-completed DESC
+LIMIT 5
+```
+
+> *No completed experiments.*
+
+---
+
+## BACKTESTS
+
+```dataview
+TABLE date-run, strategy-version, asset, market-regime, total-trades, win-rate, conclusion
+FROM "03-Research/Backtests"
+WHERE note-type = "backtest"
+SORT date-run DESC
+LIMIT 10
+```
+
+> *No backtests completed. Use **+ BACKTEST** to record one.*
+
+---
+*[[Dashboard - Trading OS|Home]] · [[Dashboard - Trading|Trading]] · [[_Bases/Research.base|Research Database]]*
