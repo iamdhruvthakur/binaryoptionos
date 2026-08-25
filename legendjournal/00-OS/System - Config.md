@@ -79,7 +79,7 @@ tags:
 *(This property is retained for historical data preservation. New architecture is natively Quotex Binary Options)*
 
 ### Market Behavior (OTC)
-`NORMAL` `REVERSAL` `TRENDING` `CHOPPY` `MANIPULATED` `UNKNOWN`
+`NORMAL` `REVERSAL` `UNKNOWN`
 *(Requires specific tracking of candle behavior, sequences, and setups for algorithmic markets)*
 
 ### Bias Type

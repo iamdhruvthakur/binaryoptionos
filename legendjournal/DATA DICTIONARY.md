@@ -289,7 +289,7 @@ Present on all structured notes.
 `FOREX` `BINARY`
 
 ### Market Behavior (OTC)
-`NORMAL` `REVERSAL` `TRENDING` `CHOPPY` `MANIPULATED` `UNKNOWN`
+`NORMAL` `REVERSAL` `UNKNOWN`
 
 ### Bias Type
 `FOMO` `Revenge` `Overconfidence` `Fear` `Tilt` `Hesitation` `None`
