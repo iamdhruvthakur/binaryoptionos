@@ -1,0 +1,15 @@
+﻿{
+  "filters": {},
+  "order": {"by": "date", "direction": "desc"},
+  "columns": [
+    {"id": "date", "key": "date", "label": "Date", "width": 110},
+    {"id": "bias-type", "key": "bias-type", "label": "Bias", "width": 110},
+    {"id": "impact", "key": "impact", "label": "Impact", "width": 90},
+    {"id": "emotional-state", "key": "emotional-state", "label": "State", "width": 180}
+  ],
+  "views": [
+    {"id": "all", "name": "All Psychology Notes", "type": "table", "filter": {"conditions": []}, "order": {"by": "date", "direction": "desc"}},
+    {"id": "negative", "name": "Negative Impact", "type": "table", "filter": {"conditions": [{"id": "impact", "operator": "equals", "value": "Negative"}]}, "order": {"by": "date", "direction": "desc"}}
+  ],
+  "source": {"type": "folder", "path": "06-Psychology/Observations", "recursive": false}
+}

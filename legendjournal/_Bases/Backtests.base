@@ -1,0 +1,19 @@
+﻿{
+  "filters": {},
+  "order": {"by": "date-run", "direction": "desc"},
+  "columns": [
+    {"id": "date-run", "key": "date-run", "label": "Date Run", "width": 110},
+    {"id": "strategy-version", "key": "strategy-version", "label": "Version", "width": 80},
+    {"id": "asset", "key": "asset", "label": "Asset", "width": 100},
+    {"id": "market-regime", "key": "market-regime", "label": "Regime", "width": 100},
+    {"id": "total-trades", "key": "total-trades", "label": "Trades", "width": 70},
+    {"id": "wins", "key": "wins", "label": "W", "width": 50},
+    {"id": "losses", "key": "losses", "label": "L", "width": 50},
+    {"id": "win-rate", "key": "win-rate", "label": "WR%", "width": 70},
+    {"id": "conclusion", "key": "conclusion", "label": "Conclusion", "width": 200}
+  ],
+  "views": [
+    {"id": "all", "name": "All Backtests", "type": "table", "filter": {"conditions": []}, "order": {"by": "date-run", "direction": "desc"}}
+  ],
+  "source": {"type": "folder", "path": "03-Research/Backtests", "recursive": false}
+}

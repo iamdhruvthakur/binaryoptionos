@@ -1,0 +1,18 @@
+﻿{
+  "filters": {},
+  "order": {"by": "version", "direction": "desc"},
+  "columns": [
+    {"id": "version", "key": "version", "label": "Version", "width": 90},
+    {"id": "strategy", "key": "strategy", "label": "Strategy", "width": 120},
+    {"id": "status", "key": "status", "label": "Status", "width": 100},
+    {"id": "created", "key": "created", "label": "Created", "width": 110},
+    {"id": "backtest-count", "key": "backtest-count", "label": "Backtests", "width": 80},
+    {"id": "live-trade-count", "key": "live-trade-count", "label": "Live Trades", "width": 90},
+    {"id": "win-rate", "key": "win-rate", "label": "WR%", "width": 70}
+  ],
+  "views": [
+    {"id": "all", "name": "All Versions", "type": "table", "filter": {"conditions": []}, "order": {"by": "created", "direction": "desc"}},
+    {"id": "active", "name": "Active", "type": "table", "filter": {"conditions": [{"id": "status", "operator": "equals", "value": "Active"}]}, "order": {"by": "created", "direction": "desc"}}
+  ],
+  "source": {"type": "folder", "path": "02-Strategies/Versions", "recursive": false}
+}

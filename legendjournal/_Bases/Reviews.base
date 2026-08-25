@@ -1,0 +1,20 @@
+﻿{
+  "filters": {},
+  "order": {"by": "date", "direction": "desc"},
+  "columns": [
+    {"id": "date", "key": "date", "label": "Date", "width": 110},
+    {"id": "review-type", "key": "review-type", "label": "Type", "width": 80},
+    {"id": "day-of-week", "key": "day-of-week", "label": "Day", "width": 90},
+    {"id": "total-trades", "key": "total-trades", "label": "Trades", "width": 70},
+    {"id": "wins", "key": "wins", "label": "W", "width": 50},
+    {"id": "losses", "key": "losses", "label": "L", "width": 50},
+    {"id": "win-rate", "key": "win-rate", "label": "WR%", "width": 70},
+    {"id": "psychology-rating", "key": "psychology-rating", "label": "Psych", "width": 60}
+  ],
+  "views": [
+    {"id": "all", "name": "All Reviews", "type": "table", "filter": {"conditions": []}, "order": {"by": "date", "direction": "desc"}},
+    {"id": "daily", "name": "Daily", "type": "table", "filter": {"conditions": [{"id": "review-type", "operator": "equals", "value": "Daily"}]}, "order": {"by": "date", "direction": "desc"}},
+    {"id": "weekly", "name": "Weekly", "type": "table", "filter": {"conditions": [{"id": "review-type", "operator": "equals", "value": "Weekly"}]}, "order": {"by": "date", "direction": "desc"}}
+  ],
+  "source": {"type": "folder", "path": "01-Journal/Reviews", "recursive": true}
+}

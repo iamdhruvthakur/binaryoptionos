@@ -1,0 +1,20 @@
+﻿{
+  "filters": {},
+  "order": {"by": "date-started", "direction": "desc"},
+  "columns": [
+    {"id": "title", "key": "title", "label": "Title", "width": 200},
+    {"id": "status", "key": "status", "label": "Status", "width": 100},
+    {"id": "date-started", "key": "date-started", "label": "Started", "width": 110},
+    {"id": "date-completed", "key": "date-completed", "label": "Completed", "width": 110},
+    {"id": "conclusion-type", "key": "conclusion-type", "label": "Conclusion", "width": 110},
+    {"id": "sample-size", "key": "sample-size", "label": "Sample", "width": 70},
+    {"id": "strategy-version", "key": "strategy-version", "label": "Version", "width": 80}
+  ],
+  "views": [
+    {"id": "all", "name": "All Experiments", "type": "table", "filter": {"conditions": []}, "order": {"by": "date-started", "direction": "desc"}},
+    {"id": "open", "name": "Open", "type": "table", "filter": {"conditions": [{"id": "status", "operator": "equals", "value": "Open"}]}, "order": {"by": "date-started", "direction": "desc"}},
+    {"id": "in-progress", "name": "In Progress", "type": "table", "filter": {"conditions": [{"id": "status", "operator": "equals", "value": "In Progress"}]}, "order": {"by": "date-started", "direction": "desc"}},
+    {"id": "completed", "name": "Completed", "type": "table", "filter": {"conditions": [{"id": "status", "operator": "equals", "value": "Completed"}]}, "order": {"by": "date-completed", "direction": "desc"}}
+  ],
+  "source": {"type": "folder", "path": "03-Research/Experiments", "recursive": false}
+}

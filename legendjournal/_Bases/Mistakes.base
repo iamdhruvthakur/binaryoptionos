@@ -1,0 +1,17 @@
+﻿{
+  "filters": {},
+  "order": {"by": "category", "direction": "asc"},
+  "columns": [
+    {"id": "name", "key": "name", "label": "Mistake", "width": 180},
+    {"id": "category", "key": "category", "label": "Category", "width": 100},
+    {"id": "frequency", "key": "frequency", "label": "Freq", "width": 60},
+    {"id": "status", "key": "status", "label": "Status", "width": 100},
+    {"id": "resolution", "key": "resolution", "label": "Resolution", "width": 200}
+  ],
+  "views": [
+    {"id": "all", "name": "All Mistakes", "type": "table", "filter": {"conditions": []}, "order": {"by": "category", "direction": "asc"}},
+    {"id": "open", "name": "Open", "type": "table", "filter": {"conditions": [{"id": "status", "operator": "equals", "value": "Open"}]}, "order": {"by": "category", "direction": "asc"}},
+    {"id": "recurring", "name": "Recurring", "type": "table", "filter": {"conditions": [{"id": "status", "operator": "equals", "value": "Recurring"}]}, "order": {"by": "category", "direction": "asc"}}
+  ],
+  "source": {"type": "folder", "path": "06-Psychology/Mistakes", "recursive": false}
+}

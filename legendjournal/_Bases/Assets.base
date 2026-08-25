@@ -1,0 +1,13 @@
+﻿{
+  "filters": {},
+  "order": {"by": "asset-class", "direction": "asc"},
+  "columns": [
+    {"id": "name", "key": "name", "label": "Asset", "width": 120},
+    {"id": "asset-class", "key": "asset-class", "label": "Class", "width": 90},
+    {"id": "alias", "key": "alias", "label": "Alias", "width": 90}
+  ],
+  "views": [
+    {"id": "all", "name": "All Assets", "type": "table", "filter": {"conditions": []}, "order": {"by": "asset-class", "direction": "asc"}}
+  ],
+  "source": {"type": "folder", "path": "04-Market/Assets", "recursive": false}
+}

@@ -1,0 +1,16 @@
+﻿{
+  "filters": {},
+  "order": {"by": "date", "direction": "desc"},
+  "columns": [
+    {"id": "date", "key": "date", "label": "Date", "width": 110},
+    {"id": "evidence-type", "key": "evidence-type", "label": "Type", "width": 100},
+    {"id": "asset", "key": "asset", "label": "Asset", "width": 100},
+    {"id": "description", "key": "description", "label": "Description", "width": 250},
+    {"id": "trade-ref", "key": "trade-ref", "label": "Trade", "width": 130}
+  ],
+  "views": [
+    {"id": "all", "name": "All Evidence", "type": "table", "filter": {"conditions": []}, "order": {"by": "date", "direction": "desc"}},
+    {"id": "screenshots", "name": "Screenshots", "type": "table", "filter": {"conditions": [{"id": "evidence-type", "operator": "equals", "value": "Screenshot"}]}, "order": {"by": "date", "direction": "desc"}}
+  ],
+  "source": {"type": "folder", "path": "08-Evidence", "recursive": true}
+}

@@ -1,0 +1,230 @@
+{
+    "filters":  {
+
+                },
+    "order":  {
+                  "by":  "date",
+                  "direction":  "desc"
+              },
+    "columns":  [
+                    {
+                        "id":  "date",
+                        "key":  "date",
+                        "label":  "Date",
+                        "width":  110
+                    },
+                    {
+                        "id":  "time",
+                        "key":  "time",
+                        "label":  "Time",
+                        "width":  70
+                    },
+                    {
+                        "id":  "asset",
+                        "key":  "asset",
+                        "label":  "Asset",
+                        "width":  100
+                    },
+                    {
+                        "id":  "direction",
+                        "key":  "direction",
+                        "label":  "Dir",
+                        "width":  60
+                    },
+                    {
+                        "id":  "expiry",
+                        "key":  "expiry",
+                        "label":  "Expiry",
+                        "width":  65
+                    },
+                    {
+                        "id":  "market-regime",
+                        "key":  "market-regime",
+                        "label":  "Regime",
+                        "width":  100
+                    },
+                    {
+                        "id":  "session",
+                        "key":  "session",
+                        "label":  "Session",
+                        "width":  110
+                    },
+                    {
+                        "id":  "result",
+                        "key":  "result",
+                        "label":  "Result",
+                        "width":  90
+                    },
+                    {
+                        "id":  "strategy-version",
+                        "key":  "strategy-version",
+                        "label":  "Version",
+                        "width":  80
+                    },
+                    {
+                        "id":  "mistake",
+                        "key":  "mistake",
+                        "label":  "Mistake",
+                        "width":  120
+                    },
+                    {
+                        "id":  "reviewed",
+                        "key":  "reviewed",
+                        "label":  "Reviewed",
+                        "width":  80
+                    },
+                    {
+                        "label":  "Behavior",
+                        "key":  "market-behavior",
+                        "width":  100,
+                        "id":  "market-behavior"
+                    },
+                    {
+                        "label":  "Stake",
+                        "key":  "stake",
+                        "width":  70,
+                        "id":  "stake"
+                    },
+                    {
+                        "label":  "Payout",
+                        "key":  "payout",
+                        "width":  70,
+                        "id":  "payout"
+                    },
+                    {
+                        "label":  "Net P/L",
+                        "key":  "net-pl",
+                        "width":  80,
+                        "id":  "net-pl"
+                    }
+                ],
+    "views":  [
+                  {
+                      "id":  "all-trades",
+                      "name":  "All Trades",
+                      "type":  "table",
+                      "filter":  {
+                                     "conditions":  [
+
+                                                    ]
+                                 },
+                      "order":  {
+                                    "by":  "date",
+                                    "direction":  "desc"
+                                }
+                  },
+                  {
+                      "id":  "wins",
+                      "name":  "Winning Trades",
+                      "type":  "table",
+                      "filter":  {
+                                     "conditions":  [
+                                                        {
+                                                            "id":  "result",
+                                                            "operator":  "equals",
+                                                            "value":  "WIN"
+                                                        }
+                                                    ]
+                                 },
+                      "order":  {
+                                    "by":  "date",
+                                    "direction":  "desc"
+                                }
+                  },
+                  {
+                      "id":  "losses",
+                      "name":  "Losing Trades",
+                      "type":  "table",
+                      "filter":  {
+                                     "conditions":  [
+                                                        {
+                                                            "id":  "result",
+                                                            "operator":  "equals",
+                                                            "value":  "LOSS"
+                                                        }
+                                                    ]
+                                 },
+                      "order":  {
+                                    "by":  "date",
+                                    "direction":  "desc"
+                                }
+                  },
+                  {
+                      "id":  "normal-market",
+                      "name":  "Normal Market",
+                      "type":  "table",
+                      "filter":  {
+                                     "conditions":  [
+                                                        {
+                                                            "id":  "market-regime",
+                                                            "operator":  "contains",
+                                                            "value":  "Normal"
+                                                        }
+                                                    ]
+                                 },
+                      "order":  {
+                                    "by":  "date",
+                                    "direction":  "desc"
+                                }
+                  },
+                  {
+                      "id":  "reversal-market",
+                      "name":  "Reversal Market",
+                      "type":  "table",
+                      "filter":  {
+                                     "conditions":  [
+                                                        {
+                                                            "id":  "market-regime",
+                                                            "operator":  "contains",
+                                                            "value":  "Reversal"
+                                                        }
+                                                    ]
+                                 },
+                      "order":  {
+                                    "by":  "date",
+                                    "direction":  "desc"
+                                }
+                  },
+                  {
+                      "id":  "psychology-flag",
+                      "name":  "Psychology Flagged",
+                      "type":  "table",
+                      "filter":  {
+                                     "conditions":  [
+                                                        {
+                                                            "id":  "psychology-flag",
+                                                            "operator":  "equals",
+                                                            "value":  true
+                                                        }
+                                                    ]
+                                 },
+                      "order":  {
+                                    "by":  "date",
+                                    "direction":  "desc"
+                                }
+                  },
+                  {
+                      "id":  "unreviewed",
+                      "name":  "Unreviewed",
+                      "type":  "table",
+                      "filter":  {
+                                     "conditions":  [
+                                                        {
+                                                            "id":  "reviewed",
+                                                            "operator":  "equals",
+                                                            "value":  false
+                                                        }
+                                                    ]
+                                 },
+                      "order":  {
+                                    "by":  "date",
+                                    "direction":  "desc"
+                                }
+                  }
+              ],
+    "source":  {
+                   "type":  "folder",
+                   "path":  "01-Journal/Trades",
+                   "recursive":  true
+               }
+}

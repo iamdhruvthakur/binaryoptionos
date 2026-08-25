@@ -1,0 +1,13 @@
+﻿{
+  "filters": {},
+  "order": {"by": "category", "direction": "asc"},
+  "columns": [
+    {"id": "name", "key": "name", "label": "Variable", "width": 180},
+    {"id": "alias", "key": "alias", "label": "Alias", "width": 80},
+    {"id": "category", "key": "category", "label": "Category", "width": 100}
+  ],
+  "views": [
+    {"id": "all", "name": "All Variables", "type": "table", "filter": {"conditions": []}, "order": {"by": "category", "direction": "asc"}}
+  ],
+  "source": {"type": "folder", "path": "05-Variables", "recursive": false}
+}

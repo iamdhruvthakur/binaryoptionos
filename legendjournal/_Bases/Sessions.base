@@ -1,0 +1,116 @@
+{
+    "filters":  {
+
+                },
+    "order":  {
+                  "by":  "date",
+                  "direction":  "desc"
+              },
+    "columns":  [
+                    {
+                        "id":  "date",
+                        "key":  "date",
+                        "label":  "Date",
+                        "width":  110
+                    },
+                    {
+                        "id":  "day-of-week",
+                        "key":  "day-of-week",
+                        "label":  "Day",
+                        "width":  90
+                    },
+                    {
+                        "id":  "session-type",
+                        "key":  "session-type",
+                        "label":  "Session",
+                        "width":  120
+                    },
+                    {
+                        "id":  "market-regime",
+                        "key":  "market-regime",
+                        "label":  "Regime",
+                        "width":  100
+                    },
+                    {
+                        "id":  "total-trades",
+                        "key":  "total-trades",
+                        "label":  "Trades",
+                        "width":  70
+                    },
+                    {
+                        "id":  "wins",
+                        "key":  "wins",
+                        "label":  "W",
+                        "width":  50
+                    },
+                    {
+                        "id":  "losses",
+                        "key":  "losses",
+                        "label":  "L",
+                        "width":  50
+                    },
+                    {
+                        "id":  "win-rate",
+                        "key":  "win-rate",
+                        "label":  "WR%",
+                        "width":  70
+                    },
+                    {
+                        "id":  "strategy-version",
+                        "key":  "strategy-version",
+                        "label":  "Version",
+                        "width":  80
+                    },
+                    {
+                        "id":  "reviewed",
+                        "key":  "reviewed",
+                        "label":  "Reviewed",
+                        "width":  80
+                    },
+                    {
+                        "label":  "Net P/L",
+                        "key":  "net-pl",
+                        "width":  80,
+                        "id":  "net-pl"
+                    }
+                ],
+    "views":  [
+                  {
+                      "id":  "all-sessions",
+                      "name":  "All Sessions",
+                      "type":  "table",
+                      "filter":  {
+                                     "conditions":  [
+
+                                                    ]
+                                 },
+                      "order":  {
+                                    "by":  "date",
+                                    "direction":  "desc"
+                                }
+                  },
+                  {
+                      "id":  "unreviewed",
+                      "name":  "Unreviewed",
+                      "type":  "table",
+                      "filter":  {
+                                     "conditions":  [
+                                                        {
+                                                            "id":  "reviewed",
+                                                            "operator":  "equals",
+                                                            "value":  false
+                                                        }
+                                                    ]
+                                 },
+                      "order":  {
+                                    "by":  "date",
+                                    "direction":  "desc"
+                                }
+                  }
+              ],
+    "source":  {
+                   "type":  "folder",
+                   "path":  "01-Journal/Sessions",
+                   "recursive":  true
+               }
+}
