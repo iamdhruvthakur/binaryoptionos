@@ -20,8 +20,11 @@ Present on all structured notes.
 
 | Property | Type | Description | Allowed Values |
 |---|---|---|---|
-| `trade-type` | text | Asset classification | FOREX, BINARY |
+| `trade-type` | text | [HISTORICAL] Asset classification | FOREX, BINARY |
 | `date` | date | Trade date | YYYY-MM-DD |
+| `candle-behavior` | text | Deep OTC behavior at entry | Free text |
+| `sequence` | text | Candle sequence leading to setup | Free text |
+| `pattern` | text | Recognized pattern | Free text |
 | `time` | text | Entry time (24h) | "HH:MM" |
 | `day-of-week` | text | Day name | Monday, Tuesday, ... |
 | `asset` | text | Asset traded (link to Asset note) | [[AST-...]] |
@@ -30,14 +33,14 @@ Present on all structured notes.
 | `strategy-version` | text | Version used (link to Version note) | [[VER-...]] |
 | `setup` | text | Setup description | Free text |
 | `direction` | text | Trade direction | CALL, PUT |
-| `expiry` | text | Expiry duration | 1m, 2m, 3m, 5m, 10m, 15m, 30m, 1h |
+| `expiry` | text | Expiry duration (captured per trade) | 1m, 2m, 3m, 5m, 10m, 15m, 30m, 1h |
 | `market-regime` | text | Market regime (link to Regime note) | [[REG-...]] |
 | `market-behavior` | text | Algorithmic OTC behavior | [[BEH-...]] |
 | `variables` | list | Variables present (links to Variable notes) | [[VAR-...]] list |
 | `result` | text | Trade outcome | WIN, LOSS, VOID, BREAK-EVEN |
-| `payout` | number | Payout percentage | Integer 0-100 |
-| `stake` | number | Stake amount | Number |
-| `net-pl` | number | Calculated Net P/L | Number |
+| `payout` | number | Payout percentage (captured per trade) | Integer 0-100 |
+| `stake` | number | Stake amount (captured per trade) | Number |
+| `net-pl` | number | Dynamically calculated Net P/L (do not hardcode) | Number |
 | `mistake` | text | Mistake made (link to Mistake note, optional) | [[MST-...]] or empty |
 | `psychology-flag` | boolean | Psychology was a factor | true, false |
 | `psychology-note` | text | Brief psychology note | Free text |
@@ -219,7 +222,7 @@ Present on all structured notes.
 |---|---|---|
 | `name` | text | Display name (e.g. EUR/USD) |
 | `alias` | text | System alias (e.g. EUR-USD) |
-| `asset-class` | text | Forex, Crypto, Commodity, Index, Stock |
+| `asset-class` | text | Currency Pair, Crypto, Commodity, Stock, Forex (Historical) |
 | `asset-type` | text | Live, OTC |
 
 ### Variable
@@ -277,7 +280,7 @@ Present on all structured notes.
 `1m` `2m` `3m` `5m` `10m` `15m` `30m` `1h`
 
 ### Asset Class
-`Forex` `Crypto` `Commodity` `Index` `Stock`
+`Currency Pair` `Crypto` `Commodity` `Stock` (Historical: `Forex`, `Index`)
 
 ### Asset Type
 `Live` `OTC`
@@ -285,8 +288,8 @@ Present on all structured notes.
 ### Trade Type
 `FOREX` `BINARY`
 
-### Market Behavior
-`NORMAL` `REVERSAL` `UNKNOWN`
+### Market Behavior (OTC)
+`NORMAL` `REVERSAL` `TRENDING` `CHOPPY` `MANIPULATED` `UNKNOWN`
 
 ### Bias Type
 `FOMO` `Revenge` `Overconfidence` `Fear` `Tilt` `Hesitation` `None`

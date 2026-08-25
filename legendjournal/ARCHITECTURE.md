@@ -1,5 +1,5 @@
 # ARCHITECTURE.md
-## Binary Options Trading Research & Knowledge Operating System
+## Quotex Binary Options Trading Research & Knowledge Operating System
 ### Phase 1 â€” System Architecture Document
 
 **Vault:** legendjournal
@@ -80,7 +80,7 @@ None. Clean vault with no existing structure to conflict with.
 
 ## 2. SYSTEM OBJECTIVE
 
-This vault is the permanent **Binary Options Trading Research & Knowledge Operating System (Trading OS)**. It must function simultaneously as:
+This vault is the permanent **Quotex Binary Options Trading Research & Knowledge Operating System (Trading OS)**. It must function simultaneously as:
 
 1. A trading knowledge base
 2. A strategy repository
@@ -101,34 +101,37 @@ The system must remain useful at thousands of notes, work across all devices wit
 
 ## 3. DESIGN PRINCIPLES
 
-**P1 â€” Properties Over Folders**
+**P1 — Properties Over Folders**
 Folders provide filing. Properties provide meaning. Every important attribute is a property, enabling cross-folder queries.
 
-**P2 â€” Links Provide Relationships**
+**P2 — Links Provide Relationships**
 Notes reference each other through wiki-links. The graph view should reveal the structure of the trading system.
 
-**P3 â€” Templates Are the Only Entry Point**
+**P3 — The Research Feedback Loop is Core**
+The system is built on the continuous cycle of `Market → Candles → Sequence → Pattern → Variables/Confluence → Setup → Decision → Entry → Expiry → Result → Review → Research Feedback`. Every component must support this deep analysis loop.
+
+**P4 — Templates Are the Only Entry Point**
 Structured notes are ONLY created through QuickAdd + Templater. No structured note is ever created as a blank file.
 
-**P4 â€” Controlled Vocabularies Everywhere**
+**P5 — Controlled Vocabularies Everywhere**
 All categorical properties use a fixed approved vocabulary enforced by Meta Bind dropdowns.
 
-**P5 â€” Mobile-First, Desktop-Enhanced**
+**P6 — Mobile-First, Desktop-Enhanced**
 Every workflow works on mobile. Desktop-only features are never the sole path to a critical action.
 
-**P6 â€” Evidence Is a First-Class Entity**
+**P7 — Evidence Is a First-Class Entity**
 Screenshots are their own note type with properties and links, not file attachments.
 
-**P7 â€” Information Type Integrity**
+**P8 — Information Type Integrity**
 The system distinguishes: FACT / RULE / HYPOTHESIS / OBSERVATION / EXPERIMENT / CONCLUSION / PERSONAL-OPINION / UNVERIFIED-IDEA. This distinction survives migration permanently.
 
-**P8 â€” Scalability by Design**
+**P9 — Scalability by Design**
 No component degrades at 1000+ notes. Queries are folder-scoped. Date-keyed subfolders prevent directory bloat.
 
-**P9 â€” Minimum Plugin Surface**
+**P10 — Minimum Plugin Surface**
 Fewer plugins = fewer maintenance risks. Every plugin must justify its presence.
 
-**P10 â€” The System Must Be Legible**
+**P11 — The System Must Be Legible**
 Folder names, file names, and templates are self-explanatory without consulting this document.
 
 ---
@@ -1126,18 +1129,14 @@ One concept per note. Multi-concept OneNote pages split into multiple atomic not
 
 | # | Assumption | Basis |
 |---|---|---|
-| A1 | Binary options = fixed-expiry CALL/PUT with fixed payout percentage | Requirements mention payout, expiry, direction |
-| A2 | Market regimes: Normal, Reversal, Choppy, Trending | Requirements name Normal and Reversal; Choppy and Trending are standard additions |
-| A3 | Sessions: London, New York, Asian, London-NY Overlap | Standard Forex session framework |
-| A4 | V6 is the current active strategy framework | Requirements describe V6 Variable System as the existing framework |
-| A5 | Win rate = (wins / (wins + losses)) x 100, excluding VOIDs and BREAK-EVENs from denominator | Standard binary options convention |
-| A6 | Stake amounts stored as numbers without currency label | Currency to be specified by user and added in Phase 2 |
-| A7 | DataviewJS is enabled in Dataview settings | Required for variable combination queries |
-| A8 | Short Variable, Sub Variable, Acceleration Variable, Events, Line/Confluence Variable are all instances of the variable entity type, not separate entity types | Unified model is simpler and fully queryable |
-| A9 | Evidence notes are Obsidian notes with embedded images (not raw image files) | Enables properties and queries on evidence |
-| A10 | Obsidian Sync is the cross-device sync mechanism | sync: true confirmed in core-plugins.json |
-| A11 | Vault folder name legendjournal is intentional and will not be changed | Already created and named |
-| A12 | Calendar plugin is retained for navigational convenience | No conflicts; mobile compatible; zero risk |
+| A1 | System Domain | The system is natively built for Quotex Binary Options. Forex logic is historical only. |
+| A2 | Expiry, Payout, Stake | Must be captured dynamically per trade. Never hardcoded. |
+| A3 | Net P/L | Calculated dynamically from underlying fields, not stored as a manually editable property. |
+| A4 | OTC Analysis | OTC markets require deep tracking of candle behavior, sequences, and setup context beyond simple market regimes. |
+| A5 | Historical Data | Existing data (e.g., `trade-type`, legacy regimes) is preserved for historical analytics. |
+| A6 | Win rate | (wins / (wins + losses)) x 100, excluding VOIDs and BREAK-EVENs from denominator |
+| A7 | DataviewJS | Required for complex array operations and dynamic net-pl aggregation |
+| A8 | Evidence | Evidence notes are Obsidian notes with embedded images to enable properties and queries |
 
 ---
 
